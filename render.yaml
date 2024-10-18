@@ -12,6 +12,14 @@ services:
         value: "0.0.0.0"
       - key: PORT
         value: "3001"
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: MONGO_URL
+        value: "mongodb://root:root@mongo:27017"
+      - key: REDIS_URL
+        value: redis://redis:6379
+
   - type: web
     name: js-vacancy-test-task-web
     runtime: docker
@@ -25,3 +33,78 @@ services:
         value: "0.0.0.0"
       - key: PORT
         value: "3002"
+    healthCheckPath: /
+    autoDeploy: true
+
+  - type: worker
+    name: js-vacancy-test-task-migrator
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile.migrator
+    buildFilter:
+      paths:
+        - apps/api/**
+    envVars:
+      - key: NODE_ENV
+        value: development
+      - key: APP_ENV
+        value: development
+    autoDeploy: true
+    dependsOn:
+      - js-vacancy-test-task-api
+
+  - type: worker
+    name: js-vacancy-test-task-scheduler
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile.scheduler
+    buildFilter:
+      paths:
+        - apps/api/**
+    envVars:
+      - key: NODE_ENV
+        value: development
+      - key: APP_ENV
+        value: development
+    autoDeploy: true
+    dependsOn:
+      - js-vacancy-test-task-api
+
+  - type: redis
+    name: js-vacancy-test-task-redis
+    plan: free
+
+  - type: mongodb
+    name: js-vacancy-test-task-mongo
+    plan: free
+    initCommands:
+      - mongod --replSet rs --bind_ip_all --keyFile /config/keyfile --quiet --logpath /dev/null
+    envVars:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        value: root
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        value: root
+    volumes:
+      - path: /data/db
+      - path: /data/configdb
+    persistentDisk:
+      mountPath: /data
+      sizeGB: 10
+
+  - type: cron
+    name: js-vacancy-test-task-mongo-replicator
+    runtime: docker
+    dockerfilePath: apps/mongo-replicator/Dockerfile
+    schedule: "@daily"
+    command: cd /scripts && bash /setup.sh
+    envVars:
+      - key: HOST
+        value: mongo
+      - key: PORT
+        value: "27017"
+      - key: USERNAME
+        value: root
+      - key: PASSWORD
+        value: root
+      - key: REPLICA_SET_NAME
+        value: rs
+    dependsOn:
+      - js-vacancy-test-task-mongo
