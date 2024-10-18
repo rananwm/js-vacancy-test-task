@@ -35,7 +35,7 @@ export const FilterCard = ({
           base: '100%',
           md: '315px',
         }}
-        mih={'154px'}
+        mih="154px"
         shadow="sm"
         padding="xs"
         radius="md"
@@ -65,7 +65,7 @@ export const FilterCard = ({
           <Box fs="16px" fw="bold">
             Price
           </Box>
-          <Flex align="center" justify="space-between" wrap={'wrap'}>
+          <Flex align="center" justify="space-between" wrap="wrap">
             <Input
               mt="md"
               radius="md"

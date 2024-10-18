@@ -17,7 +17,7 @@ const HeaderMenu: FC = () => {
         xs: 12,
         sm: 32,
       }}
-      wrap={'wrap'}
+      wrap="wrap"
     >
       <Anchor component={Link} href={RoutePath.Home} c="#2B77EB">
         <Button

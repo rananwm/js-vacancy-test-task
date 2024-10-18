@@ -30,8 +30,8 @@ const Header: FC = () => {
         </Group>
       </AppShell.Header>
       <AppShell.Header bg="#FCFCFC" style={{ border: 'none' }} hiddenFrom="md">
-        <Flex direction={'column'} align={'center'} pb={'lg'}>
-          <Group px={24} py={16} w={'100%'} justify="space-between" bg="#FCFCFC">
+        <Flex direction="column" align="center" pb="lg">
+          <Group px={24} py={16} w="100%" justify="space-between" bg="#FCFCFC">
             <Anchor component={Link} href={RoutePath.Home}>
               <LogoImage />
             </Anchor>
