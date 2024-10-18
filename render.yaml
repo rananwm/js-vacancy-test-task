@@ -12,13 +12,12 @@ services:
         value: "0.0.0.0"
       - key: PORT
         value: "3001"
-    healthCheckPath: /
-    autoDeploy: true
-    envVars:
       - key: MONGO_URL
         value: "mongodb://root:root@mongo:27017"
       - key: REDIS_URL
         value: redis://redis:6379
+    healthCheckPath: /
+    autoDeploy: true
 
   - type: web
     name: js-vacancy-test-task-web
@@ -68,26 +67,33 @@ services:
     dependsOn:
       - js-vacancy-test-task-api
 
-  - type: redis
-    name: js-vacancy-test-task-redis
-    plan: free
-
-  - type: mongodb
+  - type: web
     name: js-vacancy-test-task-mongo
+    runtime: docker
     plan: free
-    initCommands:
-      - mongod --replSet rs --bind_ip_all --keyFile /config/keyfile --quiet --logpath /dev/null
+    image: mongo:6.0
+    entrypoint:
+      - bash
+      - -c
+      - |
+        exec docker-entrypoint.sh $$@
+    command: mongod --replSet rs --bind_ip_all --keyFile /config/keyfile --quiet --logpath /dev/null
     envVars:
       - key: MONGO_INITDB_ROOT_USERNAME
         value: root
       - key: MONGO_INITDB_ROOT_PASSWORD
         value: root
-    volumes:
-      - path: /data/db
-      - path: /data/configdb
     persistentDisk:
-      mountPath: /data
+      mountPath: /data/db
       sizeGB: 10
+    volumes:
+      - path: ./dev/mongo/config/keyfile
+        mountPath: /config/keyfile
+    autoDeploy: true
+
+  - type: redis
+    name: js-vacancy-test-task-redis
+    plan: free
 
   - type: cron
     name: js-vacancy-test-task-mongo-replicator
