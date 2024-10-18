@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 
-import React, { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { addons } from '@storybook/preview-api';
 import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import { MantineProvider, useMantineColorScheme } from '@mantine/core';

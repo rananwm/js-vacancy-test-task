@@ -1,7 +1,5 @@
 import _ from 'lodash';
-
 import db from 'db';
-
 import { DATABASE_DOCUMENTS } from 'app-constants';
 import { userSchema } from 'schemas';
 import { User } from 'types';

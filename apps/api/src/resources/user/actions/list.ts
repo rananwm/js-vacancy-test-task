@@ -1,10 +1,7 @@
 import { z } from 'zod';
-
 import { userService } from 'resources/user';
-
 import { validateMiddleware } from 'middlewares';
 import { stringUtil } from 'utils';
-
 import { paginationSchema } from 'schemas';
 import { AppKoaContext, AppRouter, NestedKeys, User } from 'types';
 
@@ -30,7 +27,7 @@ const schema = paginationSchema.extend({
 
 type ValidatedData = z.infer<typeof schema>;
 
-async function handler(ctx: AppKoaContext<ValidatedData>) {
+async function controller(ctx: AppKoaContext<ValidatedData>) {
   const { perPage, page, sort, searchValue, filter } = ctx.validatedData;
 
   const filterOptions = [];
@@ -38,7 +35,7 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
   if (searchValue) {
     const searchPattern = stringUtil.escapeRegExpString(searchValue);
 
-    const searchFields: NestedKeys<User>[] = ['firstName', 'lastName', 'email'];
+    const searchFields: NestedKeys<User>[] = ['email'];
 
     filterOptions.push({
       $or: searchFields.map((field) => ({ [field]: { $regex: searchPattern } })),
@@ -74,5 +71,5 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
 }
 
 export default (router: AppRouter) => {
-  router.get('/', validateMiddleware(schema), handler);
+  router.get('/', validateMiddleware(schema), controller);
 };

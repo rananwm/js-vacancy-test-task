@@ -1,9 +1,7 @@
 import { userService } from 'resources/user';
-
 import { rateLimitMiddleware, validateMiddleware } from 'middlewares';
 import { authService } from 'services';
 import { securityUtil } from 'utils';
-
 import { signInSchema } from 'schemas';
 import { AppKoaContext, AppRouter, Next, SignInParams, User } from 'types';
 
@@ -17,17 +15,13 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   const user = await userService.findOne({ email });
 
   ctx.assertClientError(user && user.passwordHash, {
-    credentials: 'The email or password you have entered is invalid',
+    email: 'The email or password you have entered is invalid',
   });
 
   const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
 
   ctx.assertClientError(isPasswordMatch, {
-    credentials: 'The email or password you have entered is invalid',
-  });
-
-  ctx.assertClientError(user.isEmailVerified, {
-    email: 'Please verify your email to sign in',
+    email: 'The email or password you have entered is invalid',
   });
 
   ctx.validatedData.user = user;

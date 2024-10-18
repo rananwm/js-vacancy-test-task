@@ -1,5 +1,4 @@
 import config from 'config';
-
 import { AppKoaContext, Next } from 'types';
 
 const adminAuth = (ctx: AppKoaContext, next: Next) => {

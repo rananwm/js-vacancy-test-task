@@ -8,9 +8,9 @@ import { DATABASE_DOCUMENTS } from 'app-constants';
 import { tokenSchema } from 'schemas';
 import { Token, TokenType } from 'types';
 
-type TokenPayload = Pick<Token, 'userId' | 'isShadow'> & { tokenType: TokenType };
+type TokenPayload = Pick<Token, 'userId'> & { tokenType: TokenType };
 
-const service = db.createService<Token>(DATABASE_DOCUMENTS.TOKENS, {
+const tokenService = db.createService<Token>(DATABASE_DOCUMENTS.TOKENS, {
   schemaValidator: (obj) => tokenSchema.parseAsync(obj),
 });
 
@@ -18,16 +18,14 @@ const createToken = async (userId: string, type: TokenType, isShadow?: boolean) 
   const payload: TokenPayload = {
     tokenType: type,
     userId,
-    isShadow: isShadow || null,
   };
 
   const value = await securityUtil.generateJwtToken<TokenPayload>(payload);
 
-  return service.insertOne({
+  return tokenService.insertOne({
     type,
     value,
     userId,
-    isShadow: isShadow || null,
   });
 };
 
@@ -46,15 +44,15 @@ const findTokenByValue = async (token?: string | null): Promise<Token | null> =>
 
   if (!tokenPayload) return null;
 
-  return service.findOne({ value: token });
+  return tokenService.findOne({ value: token });
 };
 
-const removeAuthTokens = async (accessToken: string) => service.deleteMany({ value: accessToken });
+const removeAuthTokens = async (accessToken: string) => tokenService.deleteMany({ value: accessToken });
 
 const invalidateUserTokens = async (userId: string, session?: ClientSession) =>
-  service.deleteMany({ userId }, {}, { session });
+  tokenService.deleteMany({ userId }, {}, { session });
 
-export default Object.assign(service, {
+export default Object.assign(tokenService, {
   createAuthTokens,
   findTokenByValue,
   removeAuthTokens,

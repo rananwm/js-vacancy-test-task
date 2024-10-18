@@ -14,7 +14,7 @@ const NotFound: NextPage = () => {
         <title>Page not found</title>
       </Head>
 
-      <Stack h="100vh" w={328} justify="center" m="auto">
+      <Stack h="100vh" w={328} px={20} justify="center" m="auto">
         <Title order={2}>Oops! The page is not found.</Title>
 
         <Text mx={0} mt={20} mb={24} c="gray.6">

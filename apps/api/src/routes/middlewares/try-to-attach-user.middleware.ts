@@ -1,6 +1,5 @@
 import { tokenService } from 'resources/token';
 import { userService } from 'resources/user';
-
 import { AppKoaContext, Next } from 'types';
 
 const tryToAttachUser = async (ctx: AppKoaContext, next: Next) => {
