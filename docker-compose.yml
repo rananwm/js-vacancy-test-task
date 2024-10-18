@@ -70,7 +70,6 @@ services:
       - js-vacancy-test-task
     volumes:
       - ./apps/api/src:/app/apps/api/src
-      - mailer-volume:/app/packages/mailer
     ports:
       - 3001:3001
     depends_on:
@@ -129,4 +128,3 @@ networks:
 volumes:
   mongodb:
   mongodb-cfg:
-  mailer-volume:
