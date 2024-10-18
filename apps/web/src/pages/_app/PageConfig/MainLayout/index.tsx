@@ -3,7 +3,7 @@ import { AppShell, Stack } from '@mantine/core';
 
 import { accountApi } from 'resources/account';
 
-import Header from './Header';
+import Header from 'components/header';
 
 interface MainLayoutProps {
   children: ReactElement;
@@ -15,10 +15,29 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   if (!account) return null;
 
   return (
-    <AppShell component={Stack} bg="gray.0">
+    <AppShell
+      component={Stack}
+      header={{
+        height: {
+          base: 'auto',
+          md: 90,
+        },
+      }}
+      bg="black-50"
+    >
       <Header />
 
-      <AppShell.Main p={32} pt={account.isShadow ? 144 : 104}>
+      <AppShell.Main
+        px={{
+          base: 20,
+          md: 50,
+        }}
+        mt={{
+          base: 250,
+          xs: 150,
+          md: 10,
+        }}
+      >
         {children}
       </AppShell.Main>
     </AppShell>

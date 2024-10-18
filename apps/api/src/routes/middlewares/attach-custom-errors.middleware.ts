@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 import { AppKoaContext, CustomErrors, Next, ValidationErrors } from 'types';
 
 const formatError = (customError: CustomErrors): ValidationErrors => {

@@ -1,5 +1,4 @@
 import { ZodError, ZodIssue, ZodSchema } from 'zod';
-
 import { AppKoaContext, Next, ValidationErrors } from 'types';
 
 const formatError = (zodError: ZodError): ValidationErrors => {

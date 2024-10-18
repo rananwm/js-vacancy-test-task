@@ -1,7 +1,5 @@
 import { tokenService } from 'resources/token';
-
 import { AppKoaContext } from 'types';
-
 import cookieHelper from './auth.helper';
 
 const setTokens = async (ctx: AppKoaContext, userId: string, isShadow?: boolean) => {

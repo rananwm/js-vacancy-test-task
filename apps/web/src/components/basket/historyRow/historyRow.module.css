@@ -1,0 +1,13 @@
+.imageBox {
+    border-radius: 8px;
+    overflow: hidden;
+
+    img {
+        object-fit: cover;
+    }
+}
+
+.image{
+    object-position: center;
+    border-radius: 8px;
+}

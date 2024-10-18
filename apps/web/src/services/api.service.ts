@@ -62,7 +62,7 @@ class ApiClient {
 
         const errorHandlers = this._handlers.get('error') as Set<ApiErrorHandler>;
 
-        errorHandlers.forEach((handler) => handler(apiError));
+        errorHandlers?.forEach((handler) => handler(apiError));
 
         throw apiError;
       },

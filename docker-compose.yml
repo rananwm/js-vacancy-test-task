@@ -122,23 +122,6 @@ services:
       - js-vacancy-test-task
     ports:
       - 3002:3002
-  mailer:
-    container_name: js-vacancy-test-task-mailer
-    build:
-      context: .
-      dockerfile: ./packages/mailer/Dockerfile
-      target: development
-      args:
-        NODE_ENV: development
-        APP_ENV: development
-    volumes:
-      - mailer-volume:/app/packages/mailer/dist
-      - ./packages/mailer/emails:/app/packages/mailer/emails
-      - ./packages/mailer/src:/app/packages/mailer/src
-    networks:
-      - js-vacancy-test-task
-    ports:
-      - 3003:3003
 networks:
   js-vacancy-test-task:
     name: js-vacancy-test-task-network

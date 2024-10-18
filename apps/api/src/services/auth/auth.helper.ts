@@ -1,8 +1,6 @@
 import psl from 'psl';
 import url from 'url';
-
 import config from 'config';
-
 import { COOKIES, TOKEN_SECURITY_EXPIRES_IN } from 'app-constants';
 import { AppKoaContext } from 'types';
 

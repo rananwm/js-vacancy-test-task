@@ -1,10 +1,7 @@
 import { ParameterizedContext } from 'koa';
 import koaRateLimit, { MiddlewareOptions } from 'koa-ratelimit';
-
 import config from 'config';
-
 import redisClient from 'redis-client';
-
 import { AppKoaContextState } from 'types';
 
 const rateLimit = (

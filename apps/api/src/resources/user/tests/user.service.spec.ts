@@ -1,5 +1,4 @@
 import { Database } from '@paralect/node-mongo';
-
 import { DATABASE_DOCUMENTS } from 'app-constants';
 import { userSchema } from 'schemas';
 import { User } from 'types';
